@@ -1,0 +1,39 @@
+<ng-container *ngIf="communesIsLoaded">
+    <!-- Ne pas oublier la MAJUSCULE au I de *ngIF (camelCase) -->
+
+    <div>
+        <label for="search" class="form-label">Rechercher d'une commune</label>
+        <input type="text" class="form-control" name="search" placeholder="Ex: Alençon" [(ngModel)]="search"
+            autocomplete="off">
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Nom</th>
+                <th scope="col">Code</th>
+                <th scope="col">Code département</th>
+                <th scope="col">Code régions</th>
+                <th scope="col">Codes postaux</th>
+                <th scope="col">
+                    <!--Changer ordre da la population en ordre decroissant-->
+                    Population <fa-icon [icon]="faArrowDown" (click)="getPopulationDecr()"></fa-icon> <fa-icon [icon]="faArrowUp" (click)="getPopulationCroi()"></fa-icon>
+                    <!-- Changer ordre de la population en croisant -->
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let commune of getcommunes()">
+                <td>{{commune.nom}}</td>
+                <td>{{commune.code}}</td>
+                <td>{{commune.codeDepartement}}</td>
+                <td>{{commune.codeRegion}}</td>
+                <td>{{commune.codesPostaux}}</td>
+                <td>{{commune.population}}</td>
+
+            </tr>
+        </tbody>
+    </table>
+    <pagination [totalItems]="getLength()" [maxSize]="10" [(ngModel)]="currentPage" previousText="<" nextText=">"
+        class="pagination justify-content-center" [boundaryLinks]="true" firstText="<<" lastText=">>"></pagination>
+</ng-container>

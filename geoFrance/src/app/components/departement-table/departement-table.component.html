@@ -1,0 +1,37 @@
+<!-- Condition ngIf pour afficher le boutton de chargement des départements -->
+<button *ngIf="!departementsIsLoaded"  type="button" class="btn btn-primary" (click)="loadDepartements.emit()">
+Charger les départements
+</button>
+
+<!--permet d'attendre de façon asynchrome le chargement de données-->
+<ng-container *ngIf="departementsIsLoaded"> <!-- Ne pas oublier la MAJUSCULE au I de *ngIF (camelCase) -->
+
+<div>
+    <label for="search" class="form-label">Rechercher un département </label>
+    <input type="text" class="form-control" name="search" placeholder="Ex: Orne" [(ngModel)]="search" autocomplete="off">
+</div>
+
+<!-- creer un tableau pour visualiser les données-->
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Non</th>
+            <th scope="col">Code</th>
+            <th scope="col">Code région</th>
+            <th scope="col">#</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let departement of getDepartements()"> 
+            <td>{{departement.nom }}</td>
+            <td>{{departement.code }}</td>
+            <td>{{departement.codeRegion }}</td>
+            <td (click)="loadCommunes.emit(departement.code)"><fa-icon [icon]="faMagnifyingGlassPlus"></fa-icon></td>
+        </tr>
+    </tbody>
+
+</table>
+<pagination [totalItems]="getLength()" class="pagination justify-content-center" [(ngModel)]="currentPage" previousText="<" nextText=">"></pagination>
+
+
+</ng-container>
